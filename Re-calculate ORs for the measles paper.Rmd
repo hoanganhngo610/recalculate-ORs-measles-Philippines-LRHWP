@@ -1,0 +1,167 @@
+---
+title: "Re-calculation of ORs in the Phillipines measles paper"
+author: "Hoang-Anh Ngo"
+date: "12/1/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This R-Markdown is used to re-calculate the Odd Ratios presented in Table 1 of the paper "Measles outbreak in the Philippines: epidemiological and clinical characteristics of hospitalized children, 2016-2019", published on The Lancet Regional Health - Western Pacific.
+
+First of all, the required library, `epitools` is installed. The OR will be calculated using the command `oddsratio` with Wald (unconditional maximum likelihood estimation) method, while the p-value is calculated using mid-p method.
+
+```{r}
+# install.packages('epitools')
+library(epitools)
+```
+
+## Retrieve the citation of R and epitools
+
+```{r}
+citation()
+citation("epitools")
+```
+
+## Calculation of the ORs for age groups (months)
+
+```{r}
+# create matrix for age groups
+age_group <- c('>24', '<3', '3-5', '6-8', '9-11', '12-24')
+outcome <- c('Alive', 'Dead')
+data_age_group <- matrix(c(1642-40, 40, 94-2, 2, 715-31, 31, 1280-40, 40, 765-21, 21, 1066-44, 44), 
+                         nrow=6, ncol=2, byrow=TRUE)
+dimnames(data_age_group) <- list('Age group (months)'=age_group, 'Outcome'=outcome)
+
+#view matrix
+data_age_group
+
+# calculate odds ratio for this data
+oddsratio(data_age_group, method="wald")
+
+# verify percentages of dead children
+data_age_group[,2] / (data_age_group[,1] + data_age_group[,2])*100
+```
+
+## Calculation of the OR for sex
+
+```{r}
+# create matrix for sex
+sex <- c('Male', 'Female')
+outcome <- c('Alive', 'Dead')
+data_sex <- matrix(c(3062-100, 100, 2500-78, 78), 
+                   nrow=2, ncol=2, byrow=TRUE)
+dimnames(data_sex) <- list('Sex'=sex, 'Outcome'=outcome)
+
+#view matrix
+data_sex
+
+# calculate odds ratio for this data
+oddsratio(data_sex, method="wald")
+
+# verify percentages of dead children
+data_sex[,2] / (data_sex[,1] + data_sex[,2])*100
+```
+
+
+## Calculation of the OR for region of residence
+
+```{r}
+# create matrix for region of residence
+region_of_residence <- c('In NCR', 'Outside NCR')
+outcome <- c('Alive', 'Dead')
+data_region_of_residence <- matrix(c(4706-140, 140, 670-30, 30), 
+                                   nrow=2, ncol=2, byrow=TRUE)
+dimnames(data_region_of_residence) <- list('Region of residence'=region_of_residence, 'Outcome'=outcome)
+
+#view matrix
+data_region_of_residence
+
+# calculate odds ratio for this data
+oddsratio(data_region_of_residence, method="wald")
+
+# verify percentages of dead children
+data_region_of_residence[,2] / (data_region_of_residence[,1] + data_region_of_residence[,2])*100
+```
+
+## Calculation of the OR for admission timing
+
+```{r}
+# create matrix for admission timing
+admission_timing <- c('Non-epidemic', 'Epidemic')
+outcome <- c('Alive', 'Dead')
+data_admission_timing <- matrix(c(356-3, 3, 5206-175, 175), 
+                                nrow=2, ncol=2, byrow=TRUE)
+dimnames(data_admission_timing) <- list('Admission timing'=admission_timing, 'Outcome'=outcome)
+
+#view matrix
+data_admission_timing
+
+# calculate odds ratio for this data
+oddsratio(data_admission_timing, method="wald")
+
+# verify percentages of dead children
+data_admission_timing[,2] / (data_admission_timing[,1] + data_admission_timing[,2])*100
+```
+
+## Calculation of the OR for vaccine status
+
+```{r}
+# create matrix for vaccine status
+vaccine_status <- c('Vaccinated (>=1 dose)', 'Non-vaccinated')
+outcome <- c('Alive', 'Dead')
+data_vaccine_status <- matrix(c(847-16, 16, 4600-154, 154), 
+                              nrow=2, ncol=2, byrow=TRUE)
+dimnames(data_vaccine_status) <- list('Vacination status'=vaccine_status, 'Outcome'=outcome)
+
+#view matrix
+data_vaccine_status
+
+# calculate odds ratio for this data
+oddsratio(data_vaccine_status, method="wald")
+
+# verify percentages of dead children
+data_vaccine_status[,2] / (data_vaccine_status[,1] + data_vaccine_status[,2])*100
+```
+
+## Calculation of the OR for duration between fever onset and admission
+
+```{r}
+# create matrix for duration between fever onset and admission
+onset_admission_duration_fever <- c('0-3d', '4-6d', '7-14d', '>14d')
+outcome <- c('Alive', 'Dead')
+data_admission_duration_fever <- matrix(c(2071-48, 48, 2746-91, 91, 676-37, 37, 35-1, 1), 
+                                        nrow=4, ncol=2, byrow=TRUE)
+dimnames(data_admission_duration_fever) <- list('Duration between fever onset and admission'=onset_admission_duration_fever, 'Outcome'=outcome)
+
+#view matrix
+data_admission_duration_fever
+
+# calculate odds ratio for this data
+oddsratio(data_admission_duration_fever, method="wald")
+
+# verify percentages of dead children
+data_admission_duration_fever[,2] / (data_admission_duration_fever[,1] + data_admission_duration_fever[,2])*100
+```
+
+## Calculation of the OR for duration between rash onset and admission
+
+```{r}
+# create matrix for duration between rash onset and admission
+onset_admission_duration_rash <- c('0-3d', '4-6d', '7-14d', '>14d')
+outcome <- c('Alive', 'Dead')
+data_admission_duration_rash <- matrix(c(4757-136, 136, 580-30, 30, 112-11, 11, 16-0, 0), 
+                                       nrow=4, ncol=2, byrow=TRUE)
+dimnames(data_admission_duration_rash) <- list('Duration between rash onset and admission'=onset_admission_duration_rash, 'Outcome'=outcome)
+
+#view matrix
+data_admission_duration_rash
+
+# calculate odds ratio for this data
+oddsratio(data_admission_duration_rash, method="wald")
+
+# verify percentages of dead children
+data_admission_duration_rash[,2] / (data_admission_duration_rash[,1] + data_admission_duration_rash[,2])*100
+```
