@@ -1,5 +1,5 @@
 ---
-title: "Re-calculation of ORs in the Phillipines measles paper"
+title: "Re-calculation of ORs in the Philippines measles paper"
 author: "Hoang-Anh Ngo"
 date: "12/1/2022"
 output: pdf_document
